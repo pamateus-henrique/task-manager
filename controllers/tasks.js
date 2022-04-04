@@ -1,4 +1,5 @@
 const Task = require('../models/Task');
+const asyncWrapper = require('../middleware/async');
 
 const getAllTasks = async (req,res) => {
     try {
@@ -15,6 +16,7 @@ const createTask = async (req,res) => {
         const task = await Task.create(req.body);
         res.status(201).json({task});
     } catch(e){
+        res.status(500).json({error: "server error"});
         console.error(e.errors.name.properties.message);
     }
 }
@@ -55,7 +57,6 @@ const updateTask = async (req,res) => {
     }    
 
 }
-
 
 const deleteTask = async (req,res) => {
     try {
